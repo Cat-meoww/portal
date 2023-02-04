@@ -3,9 +3,7 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\General;
-use App\Models\Product_type;
-use App\Models\Product_category;
-use App\Models\Product_sub_category;
+
 use Config\App;
 
 class Admin extends General
@@ -21,7 +19,7 @@ class Admin extends General
     }
     public function dashboard()
     {
-        $this->data['title'] = "Dashboard";
+        $this->data['title'] = "Admin Panel | Dashboard";
         return view('admin/dashboard', $this->data);
     }
     public function profile($empid)

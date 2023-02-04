@@ -69,6 +69,8 @@ class Login extends BaseController
         //1 -> admin
         if ($userrole == 1) {
             return redirect()->to('admin/dashboard');
+        }else{
+            return redirect()->to('user/dashboard');
         }
     }
     public function dashboard()

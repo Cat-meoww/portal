@@ -47,6 +47,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->add('profile/(:any)', 'admin::profile/$1');
     
 });
+$routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
+    $routes->add('dashboard', 'user::index');  
+});
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
     $routes->post('add-employee', 'admin::addemployee');
     $routes->post('add-rating', 'admin::add_rating');

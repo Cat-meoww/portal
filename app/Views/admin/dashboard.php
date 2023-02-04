@@ -35,176 +35,134 @@
         }
 
         call_datatable();
-
-
-        let rateform = {
-            uid: null,
-            eid: null,
-            name: null,
-
-            init: () => {
-                $(document).on('click', 'button.ratingbtn', function() {
-                    rateform.uid = $(this).data('uid');
-                    rateform.eid = $(this).data('eid');
-                    rateform.name = $(this).data('name');
-                    $('#rateto').html(rateform.name);
-                    $('#Rater').modal('show');
-                });
-            },
-            empty: () => {
-                rateform.uid = null
-                rateform.eid = null
-                rateform.name = null
-                $('#rateranger').val(0)
-            },
-            submit: () => {
-                console.log(rateform);
-                let rate = $('#rateranger').val();
-
-                let form = new FormData();
-                form.set('eid', rateform.eid)
-                form.set('uid', rateform.uid)
-                form.set('rating', rate)
-                rateform.pingserver(form)
-            },
-            pingserver: async (parameter) => {
-                const url = "<?= base_url('api/add-rating') ?>";
-                const options = {
-                    method: 'POST',
-                    mode: 'cors',
-                    cache: 'no-cache',
-                    credentials: 'same-origin',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    body: parameter,
-                }
-                const response = await fetch(url, options);
-                let res = await response.text();
-                if (res === "success") {
-                    toastr.success("Rated success");
-                    call_datatable();
-                    rateform.empty();
-
-                } else {
-                    toastr.warning(res);
-                }
-                $('#Rater').modal('hide');
-
-            }
-
-        }
-        let deleteform = {
-            uid: null,
-            eid: null,
-            name: null,
-
-            init: () => {
-                $(document).on('click', 'button.deleteemp', function() {
-                    deleteform.uid = $(this).data('uid');
-                    deleteform.eid = $(this).data('eid');
-                    deleteform.name = $(this).data('name');
-                    deleteform.submit();
-                });
-            },
-            empty: () => {
-                deleteform.uid = null
-                deleteform.eid = null
-                deleteform.name = null
-            },
-            submit: () => {
-                let form = new FormData();
-                form.set('eid', deleteform.eid)
-                form.set('uid', deleteform.uid)
-                deleteform.pingserver(form)
-            },
-            pingserver: async (parameter) => {
-                const url = "<?= base_url('api/delete-emp') ?>";
-                const options = {
-                    method: 'POST',
-                    mode: 'cors',
-                    cache: 'no-cache',
-                    credentials: 'same-origin',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    body: parameter,
-                }
-                const response = await fetch(url, options);
-                let res = await response.text();
-                if (res == "success") {
-                    toastr.success("DELETED success");
-                    call_datatable();
-                    deleteform.empty();
-
-                } else {
-                    toastr.warning(res);
-                }
-
-            }
-
-        }
-
-        rateform.init();
-        deleteform.init();
-
-
-        $('#ratersubmit').on('click', rateform.submit);
-
-
-
-
-
-
-
     });
 </script>
-
-<div class="card">
-
-    <div class="card-body">
-
-        <div class="table-responsive pb-3">
-            <table id="ss-datatable" class="table table-striped table-bordered mt-4" role="grid" aria-describedby="user-list-page-info">
-                <thead>
-                    <tr>
-                        <th scope="col">Rate</th>
-                        <th scope="col">EMP ID</th>
-                        <th scope="col">Employee</th>
-                        <th scope="col">Mobile Number</th>
-                        <th scope="col">DOB</th>
-                        <th scope="col">Age</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">Ending Date</th>
-                        <th scope="col">Average Rating</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
+<div class="d-flex px-3 pt-2">
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item btn-success btn bg-green-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add users
+            </li>
+        </ul>
     </div>
 </div>
+<div class="content-page  flex-fill">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 px-3">
+                <div class="card">
 
-<div class=" modal" id="Rater" tabindex=" -1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Rateting to <span id="rateto"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div class="input-group">
-                        <label for="customRange2" class="form-label">Rate this</label>
-                        <input type="range" class="form-range" min="0" value="0" max="5" step="1" id="rateranger">
+                    <div class="card-body">
+
+                        <div class="table-responsive pb-3">
+                            <table id="ss-datatable" class="table table-striped table-bordered mt-4" role="grid" aria-describedby="user-list-page-info">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Emailid</th>
+                                        <th scope="col">Create On</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="ratersubmit" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Users</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="allmasterform" action=" <?= base_url('all-master-save/' . $uri->getSegment(2)) ?>" autocomplete="off" enctype="multipart/form-data" class="needs-validation">
+                    <div class="row">
+                        <div class="col-4 mb-3 ">
+                            <label for="Productty">Username</label>
+                            <input type="text" name="Name" class="form-control" id="Username" value="" autocomplete="off" required>
+
+                        </div>
+                        <div class="col-4 mb-3 ">
+                            <label for="Productty">First Name</label>
+                            <input type="text" name="Firstname" class="form-control" id="Firstname" value="" autocomplete="off" required>
+                        </div>
+                        <div class="col-4 mb-3 ">
+                            <label for="Productty">Last Name</label>
+                            <input type="text" name="Lastname" class="form-control" id="Lastname" value="" autocomplete="off" required>
+                        </div>
+
+
+                        <div class="col-4 mb-3">
+                            <label for="Mailid">Mail Id</label>
+                            <input type="email" name="Mailid" class="form-control" id="Mailid" value="" autocomplete="off" required>
+
+                        </div>
+                        <div class="col-4 mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" value="" autocomplete="off" required>
+
+                        </div>
+                        
+
+                       
+                        
+                        
+                        
+                        
+
+                        <div class="col-12 mb-3">
+                            <button class="btn btn-primary" type="submit">Submit form</button>
+                        </div>
+                    </div>
+                </form>
+                <script>
+                    $(document).ready(function() {
+                        const form = document.querySelector('#allmasterform');
+                        async function add_data(parameter) {
+                            const url = "<?= base_url('api/add-employee') ?>";
+                            const options = {
+                                method: 'POST',
+                                mode: 'cors',
+                                cache: 'no-cache',
+                                credentials: 'same-origin',
+                                body: new FormData(form),
+                            }
+                            const response = await fetch(url, options);
+                            $('#create-type').modal('toggle');
+                            let res = await response.text();
+                            if (res == 'success') {
+                                toastr.success("Added Employee successfully");
+                                $("#allmasterform").trigger('reset');
+                                window.call_datatable();
+                            } else {
+                                toastr.error(res);
+                            }
+                        }
+                        $("#allmasterform").on('submit', function(event) {
+                            event.preventDefault();
+                            add_data($(this).serialize());
+                        });
+
+                    });
+                </script>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
 <?= $this->endSection() ?>

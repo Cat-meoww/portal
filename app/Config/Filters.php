@@ -12,6 +12,7 @@ use CodeIgniter\Filters\SecureHeaders;
 
 use App\Filters\Auth;
 use App\Filters\Is_admin;
+use App\Filters\Is_user;
 use App\Filters\NoAuth;
 
 class Filters extends BaseConfig
@@ -30,6 +31,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'isLoggedIn' => Auth::class,
         'Is_admin' => Is_admin::class,
+        'Is_user' => Is_user::class,
         'redirect_dashboard' => NoAuth::class,
     ];
 
@@ -78,6 +80,7 @@ class Filters extends BaseConfig
      */
     public $filters = [
         'isLoggedIn' => ['before' => ['admin*', 'api*']],
-        'Is_admin' => ['before' => ['admin*']]
+        'Is_admin' => ['before' => ['admin*']],
+        'Is_user' => ['before' => ['user*']]
     ];
 }
