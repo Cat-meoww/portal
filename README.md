@@ -2,7 +2,7 @@
 mail= admin@123.com
 pwd= admin123
 
-//sql -> emp_sys.sql
+//sql -> TEST.sql
 ```
 # CodeIgniter 4 Application Starter
 
